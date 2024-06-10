@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-base-200">
+  <div class="flex items-center justify-center p-12">
+    <div class="mx-auto w-full max-w-[550px]">
+      <form action="" method="POST">
+        {% csrf_token %}
+
+        <p>{{sale.sale_date}}</p>
+
+        <div class="mb-5">
+          <label for="sale_date" class="mb-3 block text-base font-medium text-[#07074D]">
+            Tanggal Jual
+          </label>
+          <input type="date" name="sale_date" id="sale_date" value="{{sale.sale_date.year}}-{{sale.sale_date.month}}-{{sale.sale_date.day}}" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_description"
+          class=" mb-3 block text-base font-medium text-[#07074D]">
+            Keterangan
+          </label>
+          <input type="text" name="sale_description" id="sale_description" value="{{sale.description}}" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+        
+        <div class="mb-5">
+          <label for="sale_buyer_name"
+          class=" mb-3 block text-base font-medium text-[#07074D]">
+            Nama pembeli
+          </label>
+          <input type="text" name="sale_buyer_name" id="sale_buyer_name" value="{{sale.buyer_name}}" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_buyer_phone"
+          class=" mb-3 block text-base font-medium text-[#07074D]">
+            HP pembeli
+          </label>
+          <input type="text" name="sale_buyer_phone" id="sale_buyer_phone" value="{{sale.buyer_phone}}" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_buyer_address" class="mb-3 block text-base font-medium text-[#07074D]">
+            Alamat pembeli
+          </label>
+          <input type="text" name="sale_buyer_address" id="sale_buyer_address" value="{{sale.buyer_address}}" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_ongkir" class="mb-3 block text-base font-medium text-[#07074D]">
+            Ongkir
+          </label>
+          <input type="number" name="sale_ongkir" id="sale_ongkir" value="{{sale.ongkir}}" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div>
+          <button type="submit"
+            class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    const params = new URLSearchParams(location.search)
+    const product = document.getElementById('product')
+
+    const chooseProduct = (e) => {
+      params.set('product_id', e.value)
+      location.search = params
+    }
+
+    product.value = params.get('product_id')
+  </script>
+{% endblock %}

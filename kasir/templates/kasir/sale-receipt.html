@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-base-200">
+
+  <!-- <form action="{% url 'kasir:sales.receipt.print' sale_id=sale.id %}" method="post"> -->
+    <!-- {% csrf_token %} -->
+    <button onclick="printReceipt()">Print</button>
+  <!-- </form> -->
+  
+  <div id="receipt" style="background-color: antiquewhite; width: 100px; margin: auto;">
+    <p>Kode Penjualan : {{sale.code}}</p>
+    <p>Keterangan : {{sale.description}}</p>
+    <p>Tanggal Penjualan : {{sale.sale_date}}</p>
+    <p>Nama Pembeli : {{sale.buyer_name}}</p>
+    <p>No. HP Pembeli : {{sale.buyer_phone}}</p>
+    <p>Alamat Pembeli : {{sale.buyer_address}}</p>
+  </div>
+
+  <section class="container px-4 mx-auto">
+    <div class="flex flex-col">
+      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    No
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Kode Makanan/Minuman
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Nama Makanan/Minuman
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Harga
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Jumlah
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                {% for item in data %}
+                <tr>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ forloop.counter }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.product.code }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.product.name }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.price }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.amount }}</span>
+                    </div>
+                  </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js" integrity="sha512-/fgTphwXa3lqAhN+I8gG8AvuaTErm1YxpUjbdCvwfTMyv8UZnFyId7ft5736xQ6CyQN4Nzr21lBuWWA9RTCXCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  function printReceipt(){
+    printJS({
+             printable:'receipt',
+              type: 'html',
+              honorColor:true,
+              font_size:'11px',
+              css:"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
+              modalMessage:"Silakan print invoice anda",
+              documentTitle:"invoice example"
+          })
+			// var printContents = document.getElementById('receipt').innerHTML;
+			// var originalContents = document.body.innerHTML;
+
+			// document.body.innerHTML = printContents;
+
+			// window.print();
+
+			// document.body.innerHTML = originalContents;
+
+		}
+</script>
+{% endblock %}

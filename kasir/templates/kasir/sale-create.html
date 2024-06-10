@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-base-200">
+  <div class="flex items-center justify-center p-12">
+    <div class="mx-auto w-full max-w-[550px]">
+      <form action="" method="POST">
+        {% csrf_token %}
+
+        <!-- <div class="mb-5">
+          <label for="name" class="mb-3 block text-base font-medium text-[#07074D]">
+            Produk
+          </label>
+          <select name="product" id="product" required onchange="chooseProduct(this)">
+            <option value="" selected disabled>Pilih makanan/minuman</option>
+            {% for product in products %}
+            <option value="{{product.id}}">{{product.name}} - Rp{{product.price}}</option>
+            {% endfor %}
+          </select>
+        </div> -->
+
+        <!-- <div class="mb-5">
+          <label for="sale_product_price" class="mb-3 block text-base font-medium text-[#07074D]">
+            Harga Produk
+          </label>
+          <input type="number" name="sale_product_price" id="sale_product_price" value="{{product.price}}" readonly
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_product_amount" class="mb-3 block text-base font-medium text-[#07074D]">
+            Jumlah Produk
+          </label>
+          <input type="number" name="sale_product_amount" id="sale_product_amount"
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div> -->
+
+        <div class="mb-5">
+          <label for="sale_date" class="mb-3 block text-base font-medium text-[#07074D]">
+            Tanggal Jual
+          </label>
+          <input type="date" name="sale_date" id="sale_date" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_buyer_name" class=" mb-3 block text-base font-medium text-[#07074D]">
+            Nama pembeli
+          </label>
+          <input type="text" name="sale_buyer_name" id="sale_buyer_name" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_description" class=" mb-3 block text-base font-medium text-[#07074D]">
+            Keterangan
+          </label>
+          <input type="text" name="sale_description" id="sale_description" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_buyer_phone" class=" mb-3 block text-base font-medium text-[#07074D]">
+            HP pembeli
+          </label>
+          <input type="text" name="sale_buyer_phone" id="sale_buyer_phone" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_buyer_address" class="mb-3 block text-base font-medium text-[#07074D]">
+            Alamat pembeli
+          </label>
+          <input type="text" name="sale_buyer_address" id="sale_buyer_address" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_ongkir" class="mb-3 block text-base font-medium text-[#07074D]">
+            Ongkir
+          </label>
+          <input type="number" name="sale_ongkir" id="sale_ongkir" required
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <p>Makanan/Minuman</p>
+
+        {% for product in products %}
+        <div class="mb-5">
+          <label for="product{{product.id}}" id="label{{product.id}}" class="mb-3 block text-base font-medium text-[#07074D]">
+            {{ product.name }} Rp{{ product.price }}
+          </label>
+          <input type="checkbox" name="product" id="product{{product.id}}" value="{{product.id}}" onchange="chooseProduct('{{product.id}}')" hidden />
+          <input type="number" name="amount" id="amount{{product.id}}" />
+          <input type="number" name="price" id="price{{product.id}}" value="{{product.price}}" hidden/>
+        </div>
+        {% endfor %}
+
+        <div>
+          <button type="submit"
+            class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const params = new URLSearchParams(location.search)
+  const product = document.getElementById('product')
+
+  const chooseProduct = (id) => {
+    const labelProduct = document.getElementById('label'+id)
+    const inputProduct = document.getElementById('product'+id)
+
+    if (inputProduct.checked) {
+      labelProduct.style.color = 'green'
+    } else {
+      labelProduct.style.color = 'black'
+    }
+  }
+
+</script>
+{% endblock %}

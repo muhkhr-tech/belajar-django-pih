@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-base-200">
+  <div>
+    <p>Kode Penjualan : {{sale.code}}</p>
+    <p>Keterangan : {{sale.description}}</p>
+    <p>Tanggal Penjualan : {{sale.sale_date}}</p>
+    <p>Nama Pembeli : {{sale.buyer_name}}</p>
+    <p>No. HP Pembeli : {{sale.buyer_phone}}</p>
+    <p>Alamat Pembeli : {{sale.buyer_address}}</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Nama makanan/minuman</th>
+        <th>Harga</th>
+        <th>Jumlah</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sale in sale_products %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{sale.product.name}}</td>
+        <td>{{sale.price}}</td>
+        <td>{{sale.amount}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="flex items-center justify-center p-12">
+    <div class="mx-auto w-full max-w-[550px]">
+      <form action="" method="POST">
+        {% csrf_token %}
+
+        <div class="mb-5">
+          <label for="name" class="mb-3 block text-base font-medium text-[#07074D]">
+            Produk
+          </label>
+          <select name="product" id="product" required onchange="chooseProduct(this)">
+            <option value="" selected disabled>Pilih makanan/minuman</option>
+            {% for product in products %}
+            <option value="{{product.id}}">{{product.name}} - Rp{{product.price}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_product_price" class="mb-3 block text-base font-medium text-[#07074D]">
+            Harga Produk
+          </label>
+          <input type="number" name="sale_product_price" id="sale_product_price" value="{{product.price}}" readonly
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div class="mb-5">
+          <label for="sale_product_amount" class="mb-3 block text-base font-medium text-[#07074D]">
+            Jumlah Produk
+          </label>
+          <input type="number" name="sale_product_amount" id="sale_product_amount"
+            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        </div>
+
+        <div>
+          <a href="{% url 'kasir:sales' %}">Batal</a>
+          <button type="submit"
+            class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    const params = new URLSearchParams(location.search)
+    const product = document.getElementById('product')
+
+    const chooseProduct = (e) => {
+      params.set('product_id', e.value)
+      location.search = params
+    }
+
+    product.value = params.get('product_id')
+  </script>
+{% endblock %}

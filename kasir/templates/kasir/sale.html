@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-base-200">
+  <a href="{% url 'kasir:index' %}">Kembali</a>
+  <section class="container px-4 mx-auto">
+    <div class="flex flex-col">
+      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <a href="{% url 'kasir:sales.create' %}" class="btn btn-primary">Tambah</a>
+          <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    No
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Kode Penjualan
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Keterangan
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Tanggal Jual
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Nama Pembeli
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    HP Pembeli
+                  </th>
+
+                  <th scope="col"
+                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    Alamat Pembeli
+                  </th>
+
+                  <th scope="col" class="relative py-3.5 px-4">
+                    <span class="sr-only">Aksi</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                {% for item in data %}
+                <tr>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ forloop.counter }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.code }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.description }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.sale_date }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.buyer_name }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.buyer_phone }}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <span>{{ item.buyer_address }}</span>
+                    </div>
+                  </td>
+
+                  <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                      <a href="{% url 'kasir:sales.edit' sale_id=item.id %}">Edit</a>
+                      <a href="{% url 'kasir:sales.add_product' sale_id=item.id %}">Tambah makanan/minuman</a>
+                      <form action="{% url 'kasir:sales.delete' sale_id=item.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                      </form>
+                    </div>
+                  </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
